@@ -14,7 +14,7 @@ function App() {
   }, [questions]);
 
   return (
-    <div className="container px-2">
+    <div className="container px-4">
       <Header />
 
       <button onClick={() => setQuestions("test")}>Добавить</button>
