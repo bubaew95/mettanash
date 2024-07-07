@@ -1,11 +1,11 @@
 import "./Header.css";
 
-import ch from "../../assets/ch.png";
+import ch from "../../../assets/ch.png";
 
 export default function Header() {
   return (
     <div className="flex justify-between mt-6">
-      <img src="vite.svg" />
+      <img src="/vite.svg" />
       <h1 className="text-xl font-bold text-black-50 text-center">
         Нохчийн Мотт
       </h1>

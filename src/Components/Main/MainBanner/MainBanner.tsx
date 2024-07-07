@@ -1,6 +1,6 @@
 import "./MainBanner.css";
 
-import logo from "../../assets/ch.png";
+import logo from "../../../assets/ch.png";
 
 export default function () {
   return (
