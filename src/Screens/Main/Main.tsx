@@ -1,11 +1,16 @@
+import React from "react";
 import Chapter from "../../Components/Main/Chapter";
 import Header from "../../Components/Main/Header";
 import MainBanner from "../../Components/Main/MainBanner";
 import SubChapter from "../../Components/Main/SubChapter";
+import { observer } from "mobx-react-lite";
 
-export default function () {
+import ChapterApi from "../../State/Chapters";
+
+const Main: React.FC = observer((props) => {
+  console.log("props", ChapterApi);
   return (
-    <>
+    <div className="px-4">
       <Header />
       <MainBanner />
       <Chapter
@@ -32,6 +37,8 @@ export default function () {
       <SubChapter text="Text 1" />
       <SubChapter text="Text 2" />
       <SubChapter text="Text 3" />
-    </>
+    </div>
   );
-}
+});
+
+export default Main;

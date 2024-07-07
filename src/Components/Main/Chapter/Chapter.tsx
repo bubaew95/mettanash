@@ -21,7 +21,7 @@ const Chapter: React.FC<ChapterProps> = ({ title, text, percent = 0 }) => {
             cy="50%"
             r="28"
             stroke="currentColor"
-            stroke-width="4"
+            strokeWidth={4}
             fill="none"
             className="text-gray-200"
           />

@@ -6,7 +6,12 @@ export default {
       textColor: {
         white: "#f1f5f9",
       },
-      backgroundColor: {},
+      backgroundColor: {
+        green: {
+          600: "#398818",
+          500: "#68B83A",
+        },
+      },
     },
   },
   plugins: [],
