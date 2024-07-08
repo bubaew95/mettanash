@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Chapter from "../../Components/Main/Chapter";
 import Header from "../../Components/Main/Header";
 import MainBanner from "../../Components/Main/MainBanner";
@@ -7,8 +7,13 @@ import { observer } from "mobx-react-lite";
 
 import ChapterApi from "../../State/Chapters";
 
-const Main: React.FC = observer((props) => {
-  console.log("props", ChapterApi);
+const Main: React.FC = observer(() => {
+  useEffect(() => {
+    ChapterApi.getChapters();
+  }, []);
+
+  console.log("ChapterApi.chapters", ChapterApi.chapters);
+
   return (
     <div className="px-4">
       <Header />

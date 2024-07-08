@@ -1,21 +1,21 @@
-import axios from "axios";
-import { makeAutoObservable } from "mobx";
+import { observable, action, makeObservable } from "mobx";
 import { getChaptersApi } from "../FireBase/FirebaseApi";
 
 class ChapterApi {
-  static getChapters(arg0: string): any {
-    throw new Error("Method not implemented.");
-  }
-  chapters = [];
+  chapters = {};
 
   constructor() {
-    makeAutoObservable(this);
+    makeObservable(this, {
+      chapters: observable,
+      getChapters: action,
+    });
   }
 
-  async getChapters() {
-    const data = await getChaptersApi("ru");
-    console.log(data);
+  getChapters() {
+    getChaptersApi("che").then((item) => {
+      this.chapters = item;
+    });
   }
 }
 
-export default ChapterApi;
+export default new ChapterApi();
