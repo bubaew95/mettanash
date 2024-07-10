@@ -3,11 +3,10 @@ import Chapter from "../../Components/Main/Chapter";
 import Header from "../../Components/Main/Header";
 import MainBanner from "../../Components/Main/MainBanner";
 import SubChapter from "../../Components/Main/SubChapter";
-import { observer } from "mobx-react-lite";
 
 import ChapterApi from "../../State/Chapters";
 
-const Main: React.FC = observer(() => {
+const Main: React.FC = () => {
   useEffect(() => {
     ChapterApi.getChapters();
   }, []);
@@ -44,6 +43,6 @@ const Main: React.FC = observer(() => {
       <SubChapter text="Text 3" />
     </div>
   );
-});
+};
 
 export default Main;

@@ -5,7 +5,7 @@ import "./App.css";
 import PageNotFound from "../../Screens/PageNotFound/PageNotFound";
 function App() {
   return (
-    <div className="mx-auto container h-dvh">
+    <div className="mx-auto container lg:w-5/12 h-dvh">
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/quiz/:id" element={<Quiz />} />
