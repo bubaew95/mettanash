@@ -2,15 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./Components/App";
 import "./index.css";
-import { QuestionsProvider } from "./Context/QuestionsContext.tsx";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "./Store";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <QuestionsProvider>
+    <Provider store={store}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </QuestionsProvider>
+    </Provider>
   </React.StrictMode>
 );

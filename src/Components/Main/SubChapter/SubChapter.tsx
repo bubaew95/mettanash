@@ -2,13 +2,12 @@ import "./SubChapter.css";
 import image from "../../../assets/ch.png";
 import React from "react";
 import { Link } from "react-router-dom";
-import { observer } from "mobx-react-lite";
 
 interface SubChapterProps {
   text: string;
 }
 
-const SubChapter: React.FC<SubChapterProps> = observer(({ text }) => {
+const SubChapter: React.FC<SubChapterProps> = ({ text }) => {
   return (
     <div className="flex justify-between items-center my-6">
       <div className="mr-3">
@@ -26,6 +25,6 @@ const SubChapter: React.FC<SubChapterProps> = observer(({ text }) => {
       </Link>
     </div>
   );
-});
+};
 
 export default SubChapter;
