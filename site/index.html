@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <script type="module">
+      import { v4 as uuidv4 } from "https://cdn.jsdelivr.net/npm/uuid@9.0.0/dist/esm-browser/index.js";
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+        setDoc,
+        doc,
+        updateDoc,
+        arrayUnion,
+      } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBtRjg6p-CsP5DeL8v2MQ2Nxn2ETboK7QM",
+        authDomain: "neb-chr-ru-v2-1701028976594.firebaseapp.com",
+        projectId: "neb-chr-ru-v2-1701028976594",
+        storageBucket: "neb-chr-ru-v2-1701028976594.appspot.com",
+        messagingSenderId: "891460142411",
+        appId: "1:891460142411:web:46e468eaaa0e57694094ce",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const fireStore = getFirestore(app);
+
+      const getChaptersApi = async () => {
+        try {
+          const chapterCollection = collection(fireStore, "chapter");
+          const docSnap = await getDocs(chapterCollection);
+
+          const chaptersDom = document.querySelector("#chapters");
+
+          const items = docSnap.docs.map((item) => {
+            const id = item.id;
+            const data = item.data();
+
+            var opt = document.createElement("option");
+            opt.value = id;
+            opt.innerHTML = data.title;
+            chaptersDom.appendChild(opt);
+          });
+
+          return items;
+        } catch (err) {
+          console.log("Error adding document: ", err);
+        }
+      };
+      getChaptersApi();
+
+      const chapterFormSend = document.querySelector("#chapterFormSend");
+      chapterFormSend.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const chapterName = e.target.querySelector("#chapterName");
+
+        if (!chapterName) {
+          alert("Поле не заполнено");
+          return;
+        }
+
+        try {
+          const citiesRef = collection(fireStore, "chapter");
+          await setDoc(doc(citiesRef), {
+            title: chapterName.value,
+            text: "",
+            language: "che",
+          });
+          chapterName.value = "";
+          window.location.reload();
+        } catch (err) {
+          alert(err.message);
+        }
+      });
+
+      const subChapterFormSend = document.querySelector("#subChapterFormSend");
+      subChapterFormSend.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const subChapterName = e.target.querySelector("#subChapterName");
+        const chapterName = e.target.querySelector("#chapters");
+
+        if (!subChapterName) {
+          alert("Поле не заполнено");
+          return;
+        }
+
+        try {
+          const citiesRef = collection(fireStore, "chapter");
+          await updateDoc(doc(citiesRef, chapterName.value), {
+            items: arrayUnion({
+              id: uuidv4(),
+              icon: "ch.png",
+              text: subChapterName.value,
+            }),
+          });
+          subChapterName.value = "";
+          //   window.location.reload();
+        } catch (err) {
+          alert(err.message);
+        }
+      });
+
+      const conversationFormSend = document.querySelector(
+        "#conversationFormSend"
+      );
+      conversationFormSend.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const chapterName = e.target.querySelector("#chapters");
+        const front = e.target.querySelector("#conversationFont");
+        const back = e.target.querySelector("#conversationBack");
+        const words = e.target.querySelector("#conversationWords");
+        if (chapterName.value === "--- Выберите главу ---") {
+          alert("Поле Глава не выбрано");
+          return;
+        }
+
+        if (front.value.language === 0 || back.value.length === 0) {
+          alert("Не заполнены обязательные поля");
+          return;
+        }
+
+        try {
+          const citiesRef = collection(fireStore, "conversation");
+          await setDoc(doc(citiesRef), {
+            chapter_id: chapterName.value,
+            front: front.value,
+            back: back.value,
+            words: words.value ?? "",
+          });
+
+          window.location.reload();
+        } catch (err) {
+          alert(err.message);
+        }
+      });
+    </script>
+
+    <div class="container">
+      <h1 class="text-center">Добавить главу</h1>
+      <form id="chapterFormSend" action="">
+        <div class="mb-3">
+          <label for="chapterName" class="form-label">Название главы</label>
+          <input
+            type="text"
+            class="form-control"
+            id="chapterName"
+            placeholder="Название главы"
+          />
+        </div>
+        <div>
+          <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+      </form>
+
+      <h1 class="text-center">Добавить подглаву</h1>
+      <form id="subChapterFormSend" action="">
+        <div class="mb-3">
+          <select
+            id="chapters"
+            class="form-select"
+            aria-label="Default select example"
+          >
+            <option selected>--- Выберите главу ---</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="subChapterName" class="form-label"
+            >Название под главы</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="subChapterName"
+            placeholder="Название главы"
+          />
+        </div>
+        <div>
+          <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+      </form>
+
+      <div class="mt-4">
+        <h1 class="text-center">Добавить предложения к главе</h1>
+        <form id="conversationFormSend" action="">
+          <select
+            id="chapters"
+            class="form-select"
+            aria-label="Default select example"
+          >
+            <option selected>--- Выберите главу ---</option>
+          </select>
+
+          <div class="mb-3">
+            <label for="conversationFont" class="form-label">Текс</label>
+            <input
+              type="text"
+              class="form-control"
+              id="conversationFont"
+              placeholder="Текст предложения"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="conversationBack" class="form-label">Перевод</label>
+            <input
+              type="text"
+              class="form-control"
+              id="conversationBack"
+              placeholder="Перевод (кнопки)"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="conversationWords" class="form-label"
+              >Слова для кнопок (через запятую без пробелов)</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="conversationWords"
+              placeholder="Слова"
+            />
+          </div>
+          <div>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

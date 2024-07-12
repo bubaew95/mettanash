@@ -10,7 +10,11 @@ const QuestionButtons: React.FC<QuestionButtonsProps> = ({ items }) => {
     <div className="px-4 buttons mb-6 grid-container grid grid-cols-5 gap-4 ">
       {items &&
         items.map((item) => (
-          <Button text={item} style="bg-green-500 hover:bg-green-600" />
+          <Button
+            key={item}
+            text={item}
+            style="bg-green-500 hover:bg-green-600"
+          />
         ))}
     </div>
   );

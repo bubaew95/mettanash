@@ -1,22 +1,24 @@
 import React, { useEffect } from "react";
 import Chapter from "../../Components/Main/Chapter";
 import SubChapter from "../../Components/Main/SubChapter";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../Store";
+import { RootState, useAppDispatch, useAppSelector } from "../../Store";
 import { getChapters, loading, setError } from "./main-slice";
 import { getChaptersApi } from "../../FireBase/FirebaseApi";
 
-const ChapterBody: React.FC = () => {
-  const chapters = useSelector((state: RootState) => state.chapters.items);
-  const isLoading = useSelector((state: RootState) => state.chapters.isLoading);
-  const errors = useSelector((state: RootState) => state.chapters.errors);
+const Content: React.FC = () => {
+  console.log("ChapterBody");
+  const chapters = useAppSelector((state: RootState) => state.chapters.items);
+  const isLoading = useAppSelector(
+    (state: RootState) => state.chapters.isLoading
+  );
+  const errors = useAppSelector((state: RootState) => state.chapters.errors);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const loadChapters = async () => {
+      dispatch(loading(true));
       try {
-        dispatch(loading(true));
         const data = await getChaptersApi("che");
         dispatch(getChapters(data));
       } catch (error: any) {
@@ -26,8 +28,10 @@ const ChapterBody: React.FC = () => {
       }
     };
 
-    loadChapters();
-  }, []);
+    if (!isLoading && chapters.length === 0) {
+      loadChapters();
+    }
+  }, [dispatch]);
 
   if (true === isLoading) {
     return <div>Loading...</div>;
@@ -48,9 +52,10 @@ const ChapterBody: React.FC = () => {
                 text="Unclock All Courses & Premium Contents!"
                 percent={10}
               />
-              {chapters.map((sItem: any) => (
-                <SubChapter key={sItem.id} text={sItem.title} />
-              ))}
+              {item?.items &&
+                item.items.map((sItem: any) => (
+                  <SubChapter key={sItem.id} text={sItem.text} />
+                ))}
             </div>
           );
         })}
@@ -58,4 +63,4 @@ const ChapterBody: React.FC = () => {
   );
 };
 
-export default ChapterBody;
+export default Content;
