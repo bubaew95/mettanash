@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Header from "../../Components/Main/Header";
 import MainBanner from "../../Components/Main/MainBanner";
 import Content from "./Content";
