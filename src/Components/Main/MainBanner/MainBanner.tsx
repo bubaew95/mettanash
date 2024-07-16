@@ -1,5 +1,4 @@
-import "./MainBanner.css";
-
+import classes from "./MainBanner.module.css";
 import logo from "../../../assets/ch.png";
 
 export default function () {
@@ -9,9 +8,7 @@ export default function () {
         <p className="mb-3 text-white text-lg font-bold">
           Unclock All Courses & Premium Contents!
         </p>
-        <button className="bg-white text-green-500 text-sm rounded-full px-4 py-2 hover:opacity-85">
-          Upgrade
-        </button>
+        <button className={classes.button}>Upgrade</button>
       </div>
       <div className="w-auto">
         <img src={logo} className="w-28  " />

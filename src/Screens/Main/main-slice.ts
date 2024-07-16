@@ -1,33 +1,33 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ChaptersRequestInterface } from "../../Interfaces/Chapter.interface";
 
-export interface ChaptersState {
-  isLoading: boolean;
-  items: [];
-  errors: null | string;
-}
-
-const initialState: ChaptersState = {
+const initialState: ChaptersRequestInterface = {
   isLoading: false,
   items: [],
-  errors: null,
+  error: null,
 };
 
 export const chaptersSlice = createSlice({
   name: "chapters",
   initialState,
   reducers: {
-    loading: (state: ChaptersState, action: PayloadAction<boolean>) => {
-      state.isLoading = action.payload;
+    loading: (state: ChaptersRequestInterface) => {
+      state.isLoading = true;
     },
-    getChapters: (state: ChaptersState, action: PayloadAction<any>) => {
+    getChapters: (
+      state: ChaptersRequestInterface,
+      action: PayloadAction<any>
+    ) => {
+      state.isLoading = false;
       state.items = action.payload;
-      state.errors = null;
+      state.error = null;
     },
     setError: (
-      state: ChaptersState,
+      state: ChaptersRequestInterface,
       action: PayloadAction<string | string>
     ) => {
-      state.errors = action.payload;
+      state.error = action.payload;
+      state.isLoading = false;
     },
   },
 });

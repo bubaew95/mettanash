@@ -6,7 +6,6 @@ import { getChapters, loading, setError } from "./main-slice";
 import { getChaptersApi } from "../../FireBase/FirebaseApi";
 
 const Content: React.FC = () => {
-  console.log("ChapterBody");
   const chapters = useAppSelector((state: RootState) => state.chapters.items);
   const isLoading = useAppSelector(
     (state: RootState) => state.chapters.isLoading
@@ -17,14 +16,12 @@ const Content: React.FC = () => {
 
   useEffect(() => {
     const loadChapters = async () => {
-      dispatch(loading(true));
+      dispatch(loading());
       try {
         const data = await getChaptersApi("che");
         dispatch(getChapters(data));
       } catch (error: any) {
         dispatch(setError(error.message));
-      } finally {
-        dispatch(loading(false));
       }
     };
 

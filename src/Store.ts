@@ -1,10 +1,12 @@
+import { useDispatch, useSelector } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import chaptersReducer from "./Screens/Main/main-slice";
-import { useDispatch, useSelector } from "react-redux";
+import adminChapterReducer from "./Screens/Admin/Chapter/Details.slice";
 
 export const store = configureStore({
   reducer: {
     chapters: chaptersReducer,
+    adminChapter: adminChapterReducer,
   },
 });
 

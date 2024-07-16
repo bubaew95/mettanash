@@ -1,0 +1,7 @@
+.loading {
+  @apply text-center text-yellow-600 font-bold text-3xl;
+}
+
+.title {
+  @apply font-bold text-2xl text-gray-700;
+}
