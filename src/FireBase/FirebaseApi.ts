@@ -27,7 +27,10 @@ export const getChapterByIdApi = async (id: string) => {
   try {
     const chapterCollection = collection(fireStore, "chapter");
     const docSnap = await getDoc(doc(chapterCollection, id));
-    return docSnap.data();
+    return {
+      id,
+      ...docSnap.data(),
+    };
   } catch (err) {
     throw err;
   }

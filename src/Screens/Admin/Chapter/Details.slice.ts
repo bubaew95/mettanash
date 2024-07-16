@@ -6,7 +6,20 @@ import {
 
 const initialState: ChapterRequestInterface = {
   isLoading: false,
-  item: {},
+  item: {
+    id: "",
+    items: [
+      {
+        id: "",
+        text: "",
+        icon: "",
+      },
+    ],
+    text: "",
+    title: "",
+    language: "",
+    chapter_id: "",
+  },
   error: null,
 };
 

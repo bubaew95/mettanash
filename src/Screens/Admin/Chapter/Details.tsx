@@ -3,8 +3,12 @@ import { useParams } from "react-router-dom";
 import { RootState, useAppDispatch, useAppSelector } from "../../../Store";
 import { getChapterById, loading, setError } from "./Details.slice";
 import { getChapterByIdApi } from "../../../FireBase/FirebaseApi";
-import { ChapterItemInterface } from "../../../Interfaces/Chapter.interface";
+import {
+  ChapterItemInterface,
+  ItemsInterface,
+} from "../../../Interfaces/Chapter.interface";
 import classes from "./Chapter.module.css";
+import Item from "../../../Components/Admin/ChapterItems/Item";
 
 const DetailsScreen: React.FC = () => {
   const { id } = useParams<string>();
@@ -37,19 +41,28 @@ const DetailsScreen: React.FC = () => {
     return <div className={classes.loading}>Loading...</div>;
   }
 
-  console.log("item", chapter);
+  if (errors) {
+    return <div className={classes.error}>{errors}</div>;
+  }
 
   return (
     <div className="mt-10">
       <h1 className={classes.title}>{chapter.title}</h1>
       <div className="mt-3">
-        <p>Id: {chapter.chapter_id}</p>
+        <p>Id: {chapter.id}</p>
         <p>Текст: {chapter.text}</p>
         <p>Язык: {chapter.language}</p>
       </div>
 
       <div className=" mt-10 ">
         <h1 className={classes.title}>Подглавы</h1>
+
+        <div className="mt-5">
+          {chapter.items &&
+            chapter.items.map((item: ItemsInterface) => (
+              <Item key={item.id} item={item} />
+            ))}
+        </div>
       </div>
     </div>
   );
