@@ -10,7 +10,7 @@ const Content: React.FC = () => {
   const isLoading = useAppSelector(
     (state: RootState) => state.chapters.isLoading
   );
-  const errors = useAppSelector((state: RootState) => state.chapters.errors);
+  const errors = useAppSelector((state: RootState) => state.chapters.error);
 
   const dispatch = useAppDispatch();
 

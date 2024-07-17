@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import Button from "../../../Components/Quiz/Button";
 import { RootState, useAppDispatch, useAppSelector } from "../../../Store";
 import { getChapters, loading, setError } from "../../Main/main-slice";
 import { getChaptersApi } from "../../../FireBase/FirebaseApi";
 import ChapterItems from "../../../Components/Admin/ChapterItems/ChapterItems";
+import Button from "../../../Components/Button/Button";
 
 const IndexScreen = () => {
   const chapters = useAppSelector((state: RootState) => state.chapters.items);
@@ -34,7 +34,9 @@ const IndexScreen = () => {
     <div className="mt-10">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold ">Главы</h1>
-        <Button text="Добавить главу" style="bg-green-500" onClick={() => {}} />
+        <Button className="primary" onClick={() => {}}>
+          Добавить главу
+        </Button>
       </div>
 
       {isLoading && <p>Loading...</p>}

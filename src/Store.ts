@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, createAsyncThunk } from "@reduxjs/toolkit";
 import chaptersReducer from "./Screens/Main/main-slice";
 import adminChapterReducer from "./Screens/Admin/Chapter/Details.slice";
+import questionSlice from "./Screens/Admin/Question/Question.slice";
 
 export const store = configureStore({
   reducer: {
     chapters: chaptersReducer,
     adminChapter: adminChapterReducer,
+    questions: questionSlice,
   },
 });
 

@@ -1,17 +1,16 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { RootState, useAppDispatch, useAppSelector } from "../../../Store";
-import { getChapterById, loading, setError } from "./Details.slice";
-import { getChapterByIdApi } from "../../../FireBase/FirebaseApi";
-import {
-  ChapterItemInterface,
-  ItemsInterface,
-} from "../../../Interfaces/Chapter.interface";
+import { fetchChapterById } from "./Details.slice";
+import { ItemsInterface } from "../../../Interfaces/Chapter.interface";
 import classes from "./Chapter.module.css";
 import Item from "../../../Components/Admin/ChapterItems/Item";
+import PageNotFound from "../PageNotFound/PageNotFound";
 
 const DetailsScreen: React.FC = () => {
   const { id } = useParams<string>();
+
+  const dispatch = useAppDispatch();
 
   const chapter = useAppSelector((state: RootState) => state.adminChapter.item);
   const isLoading = useAppSelector(
@@ -19,22 +18,8 @@ const DetailsScreen: React.FC = () => {
   );
   const errors = useAppSelector((state: RootState) => state.chapters.error);
 
-  const dispatch = useAppDispatch();
-
   useEffect(() => {
-    const loadChapters = async () => {
-      dispatch(loading());
-      try {
-        const data = await getChapterByIdApi(id as string);
-        dispatch(getChapterById(data as ChapterItemInterface));
-      } catch (error: any) {
-        dispatch(setError(error.message));
-      }
-    };
-
-    if (!isLoading) {
-      loadChapters();
-    }
+    dispatch(fetchChapterById(id));
   }, [dispatch]);
 
   if (isLoading) {
@@ -43,6 +28,10 @@ const DetailsScreen: React.FC = () => {
 
   if (errors) {
     return <div className={classes.error}>{errors}</div>;
+  }
+
+  if (null === chapter) {
+    return <PageNotFound />;
   }
 
   return (
@@ -58,8 +47,8 @@ const DetailsScreen: React.FC = () => {
         <h1 className={classes.title}>Подглавы</h1>
 
         <div className="mt-5">
-          {chapter.items &&
-            chapter.items.map((item: ItemsInterface) => (
+          {chapter!.items &&
+            chapter!.items.map((item: ItemsInterface) => (
               <Item key={item.id} item={item} />
             ))}
         </div>

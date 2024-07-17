@@ -27,56 +27,36 @@ export const getChapterByIdApi = async (id: string) => {
   try {
     const chapterCollection = collection(fireStore, "chapter");
     const docSnap = await getDoc(doc(chapterCollection, id));
+
+    if (false === docSnap.exists()) {
+      return null;
+    }
+
     return {
       id,
       ...docSnap.data(),
     };
   } catch (err) {
-    throw err;
+    throw err as Error;
   }
 };
 
-const getConversations = async (ids) => {
-  if (!ids) {
-    return;
+export const deleteChapterItem = async (id: string) => {};
+
+export const getConversationsByChapterId = async (id: string) => {
+  if (!id) {
+    return null;
   }
 
   try {
     const conversationCollection = collection(fireStore, "conversation");
-    const filter = query(
-      conversationCollection,
-      where("chapter_id", "in", ids)
-    );
+    const filter = query(conversationCollection, where("chapter_id", "==", id));
 
     const querySnapshot = await getDocs(filter);
     return querySnapshot.docs.map((item) => ({
       id: item.id,
       ...item.data(),
     }));
-  } catch (err) {
-    throw err;
-  }
-};
-
-export const SynchronizationDataBase = async (dataBase, settings = null) => {
-  try {
-    if (null === settings) {
-      settings = await dataBase.DbGetSettings();
-    }
-
-    const chapters = await getChaptersApi(settings.language);
-    await dataBase.DbInsertChapters(chapters);
-
-    const conversations = await getConversations(
-      chapters.map((item) => item.id).flat()
-    );
-
-    await dataBase.DbInsertConversations(conversations);
-    await dataBase.DbInsertOrUpdateSettings({
-      lastDateSync: unixTime + 3600 * 24 * 7,
-    });
-
-    return chapters;
   } catch (err) {
     throw err;
   }

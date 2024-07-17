@@ -1,6 +1,6 @@
 export interface ChapterRequestInterface {
   isLoading: boolean;
-  item: ChapterItemInterface;
+  item: ChapterItemInterface | null;
   error: null | string;
 }
 
