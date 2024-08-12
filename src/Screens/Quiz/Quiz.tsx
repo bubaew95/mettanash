@@ -6,6 +6,9 @@ import Conversation from "../../Components/Quiz/Conversation/Conversation";
 import QuestionButtons from "../../Components/Quiz/QuestionButtons/QuestionButtons";
 
 const Quiz: React.FC = () => {
+
+
+  
   return (
     <div className="full relative h-dvh bg-slate-100">
       <Header />
