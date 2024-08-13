@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 
 interface SubChapterProps {
   text: string;
+  parentId: string;
+  id: string;
 }
 
-const SubChapter: React.FC<SubChapterProps> = ({ text }) => {
+const SubChapter: React.FC<SubChapterProps> = ({ parentId, id, text }) => {
   return (
     <div className="flex justify-between items-center my-6">
       <div className="mr-3">
@@ -18,7 +20,7 @@ const SubChapter: React.FC<SubChapterProps> = ({ text }) => {
         </div>
       </div>
       <Link
-        to={"/quiz/12"}
+        to={`/quiz/${parentId}/${id}`}
         className="flex-1 border-2 p-4 rounded-lg shadow-md"
       >
         <p className="font-bold">{text}</p>

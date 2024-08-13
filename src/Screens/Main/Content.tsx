@@ -51,7 +51,7 @@ const Content: React.FC = () => {
               />
               {item?.items &&
                 item.items.map((sItem: any) => (
-                  <SubChapter key={sItem.id} text={sItem.text} />
+                  <SubChapter key={sItem.id} parentId={item.id} {...sItem} />
                 ))}
             </div>
           );

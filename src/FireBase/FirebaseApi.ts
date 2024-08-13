@@ -23,10 +23,10 @@ export const getChaptersApi = async (language: string) => {
   }
 };
 
-export const getChapterByIdApi = async (id: string) => {
+export const getChapterByIdApi = async (parentId: string, id: string) => {
   try {
     const chapterCollection = collection(fireStore, "chapter");
-    const docSnap = await getDoc(doc(chapterCollection, id));
+    const docSnap = await getDoc(doc(chapterCollection, parentId));
 
     if (false === docSnap.exists()) {
       return null;

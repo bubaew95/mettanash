@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Quiz.css";
 import Header from "../../Components/Quiz/Header";
 import Question from "../../Components/Quiz/Question/Question";
 import Conversation from "../../Components/Quiz/Conversation/Conversation";
 import QuestionButtons from "../../Components/Quiz/QuestionButtons/QuestionButtons";
+import { useAppDispatch } from "../../Store";
+import { findQuizByIds } from "./quiz.slice";
+import { useParams } from "react-router-dom";
 
 const Quiz: React.FC = () => {
+  const { parentId, id } = useParams();
 
+  const dispatch = useAppDispatch();
 
-  
+  useEffect(() => {
+    dispatch(findQuizByIds({ parentId, id }));
+  }, []);
+
   return (
     <div className="full relative h-dvh bg-slate-100">
       <Header />
